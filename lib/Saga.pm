@@ -12,6 +12,7 @@ use Comando::Agregar::Nacimiento;
 use Comando::Agregar::Nombre;
 use Comando::Agregar::Sexo;
 use Comando::Hacer::Persona;
+use Comando::Hacer::Situacion;
 use Comando::Hacer::Vampire;
 use Model::Alteracion;
 use Model::Entorno;

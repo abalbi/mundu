@@ -1,11 +1,10 @@
-package Situacion::Fabrica;
-use Saga qw(despachar);
+package Comando::Hacer::Situacion;
+use strict;
 use Data::Dumper;
+use fields qw();
+use base qw(Comando);
 
-=item
-Hacer situacion
-=cut
-sub hacer {
+sub _ejecutar {
 	my $self = shift;
 	my $params = Saga->params(@_)->params_requeridos(qw(key))->params_libres;
 	my $situacion = Saga->despachar('Situacion')->new(fecha => Saga->entorno->fecha_actual, key => $params->key);

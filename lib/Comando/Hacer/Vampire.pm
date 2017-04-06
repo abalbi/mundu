@@ -20,7 +20,7 @@ sub _ejecutar {
   }
   my $situacion;
   Saga->en_fecha($fecha, sub {
-  	$situacion = Saga->despachar('Situacion::Fabrica')->hacer(
+  	$situacion = Saga->despachar('Comando::Hacer::Situacion')->new->ejecutar(
   		key => 'abrazo',
   		sujeto => $persona,
   	);
