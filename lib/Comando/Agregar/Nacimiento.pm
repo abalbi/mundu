@@ -10,18 +10,18 @@ Agrega nacimiento y edad a persona
 =cut
 sub _ejecutar {
 	my $self = shift;
-  my $params = Saga->params(@_)->params_requeridos('persona')->params_validos(qw(fecha edad));
+  my $params = Saga->params(@_)->params_requeridos('persona')->params_excluyentes(qw(fecha_nacimiento edad));
   my $persona = $params->persona;
-  my $fecha = $params->fecha;
+  my $fecha_nacimiento = $self->parsea_fecha_nacimiento($params->fecha_nacimiento);
   my $edad = $params->edad;
-  if(not defined $fecha) {
+  if(not defined $fecha_nacimiento) {
   	$edad = Saga->azar([13..30]) if not defined $edad;
   	$edad = Saga->azar($edad) if ref $edad eq 'ARRAY';
   	$self->logger->logconfess("El param edad no esta correctamente definifo: ". $params->edad) if $edad !~ /^\d+$/;
-  	$fecha = Saga->dt(Saga->entorno->fecha_actual)->subtract(years => $edad)->datetime;
+  	$fecha_nacimiento = Saga->dt(Saga->entorno->fecha_actual)->subtract(years => $edad)->datetime;
   }
   my $situacion;
-  Saga->en_fecha($fecha, sub {
+  Saga->en_fecha($fecha_nacimiento, sub {
   	$situacion = Saga->despachar('Comando::Hacer::Situacion')->new->ejecutar(
   		key => 'nacimiento',
   		sujeto => $persona,
@@ -38,6 +38,13 @@ Propiedades obligatorias para personas
 =cut
 sub persona_propiedades_obligatorios {
   return [];
+}
+
+sub parsea_fecha_nacimiento {
+  my $self = shift;
+  my $params = Saga->params(@_) if ref $_[0] eq 'HASH';
+  return shift @_ if not defined $params;
+  Saga->dt_random($params);
 }
 1;
 

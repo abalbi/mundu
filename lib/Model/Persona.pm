@@ -48,8 +48,10 @@ sub agregar {
 sub propiedad {
   my $self = shift;
   my $key = shift;
-  my $propiedad = [grep {$_->key eq $key} @{$self->items}]->[0];
-  return $propiedad;  
+  my $propiedad = [grep {$_->key eq $key} @{$self->propiedades}];
+  return undef if scalar @{$propiedad} == 0;
+  return $propiedad->[0] if scalar @{$propiedad} == 1;
+  return $propiedad;
 }
 
 sub propiedades {

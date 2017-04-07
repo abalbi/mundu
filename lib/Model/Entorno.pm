@@ -1,6 +1,6 @@
 package Entorno;
 use Data::Dumper;
-use fields qw(_items _fecha_actual);
+use fields qw(_items _fecha_actual _fecha_inicio);
 use base qw(Base);
 
 our $nombres_mujer  = [qw(Lucia Maria Martina Paula Daniela Sofia Valeria Carla Sara Alba Julia Noa Emma Claudia Carmen Marta Valentina Irene Adriana Ana Laura Elena Alejandra Ines Marina Vera Candela Laia Ariadna Lola Andrea Rocio Angela Vega Nora Jimena Blanca Alicia Clara Olivia Celia Alma Eva Elsa Leyre Natalia Victoria Isabel Cristina Lara Abril Triana Nuria Carolina Manuela Chloe Mia Mar Gabriela Mara Africa Iria Naia Helena Paola Noelia Nahia Miriam Salma)];
@@ -19,11 +19,17 @@ sub new {
   $self;
 }
 
+sub fecha_inicio {
+  my $self = shift;
+	$self->{_fecha_inicio} = Saga->dt_string(year => 1990)->datetime if not defined $self->{_fecha_inicio};
+	return $self->{_fecha_inicio};	
+}
+
 sub fecha_actual {
   my $self = shift;
 	my $fecha = shift;
 	$self->{_fecha_actual} = $fecha if defined $fecha;
-	$self->{_fecha_actual} = Saga->dt_string(year => 1990)->datetime if not defined $self->{_fecha_actual};
+	$self->{_fecha_actual} = $self->fecha_inicio if not defined $self->{_fecha_actual};
 	return $self->{_fecha_actual};	
 }
 

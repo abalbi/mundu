@@ -2,6 +2,7 @@ package Saga;
 use Data::Dumper;
 use Log::Log4perl;
 use DateTime;
+use DateTime::Event::Random;
 use DateTime::Format::Strptime;
 use String::Random qw(random_regex);
 
@@ -22,10 +23,10 @@ use Model::Persona::Propiedad::Abrazo;
 use Model::Persona::Propiedad::Antiguedad;
 use Model::Persona::Propiedad::Categoria;
 use Model::Persona::Propiedad::Edad;
+use Model::Persona::Propiedad::EdadAparente;
 use Model::Persona::Propiedad::Nacimiento;
 use Model::Situacion;
 use Model::Situacion::Rol;
-use Situacion::Fabrica;
 use Saga::Params;
 
 
@@ -61,7 +62,7 @@ sub params {
   my $params;
   my $fields = {};
   if(scalar @params == 1 && ref $params[0] eq 'Saga::Params') {
-    return $params[0];
+    $params= {(%{$params[0]->items})};
   } elsif(scalar @params == 1 && ref $params[0] eq 'HASH') {
     $params = $params[0];
   } elsif (scalar @params > 1) {
@@ -86,6 +87,25 @@ sub dt_string {
   }
   return DateTime->new($params->en_hash);
 }
+
+=item
+Genera un DateTime random
+=cut
+sub dt_random {
+  my $class = shift;
+  return $_[0] if $_[0] =~ /^\d\d\d\d\-\d\d\-\d\d/;
+  my $params = Saga->params(@_)->params_validos(qw(desde hasta));
+  my $desde = $params->desde;
+  my $hasta = $params->hasta;
+  $hasta = Saga->entorno->fecha_actual if not defined $hasta;
+  $desde = Saga->dt(Saga->entorno->fecha_actual)->subtract(years => 3000)->datetime if not defined $desde;
+  if(Saga->dt($hasta)->epoch < Saga->dt($desde)->epoch) {
+    Saga->logger->logconfess("Desde (".$desde.") debe ser menor que Hasta (".$hasta.")");
+  }
+  my $random = Saga->dt_string(epoch => Saga->dt($desde)->epoch + Saga->azar(Saga->dt($hasta)->epoch - Saga->dt($desde)->epoch))->datetime;
+  return $random;
+}
+
 
 =item
 Genera un DateTime desde un string de fecha
@@ -143,6 +163,8 @@ sub azar {
   return int rand $valor + 1 if $valor =~ /^\d+$/;
   return undef;
 }
+
+
 
 sub saga_srand {
   my $srand_param = shift;

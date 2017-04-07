@@ -75,10 +75,23 @@ describe "Como usuario quiero tener un Entorno que tenga Situaciones" => sub {
     my $persona = Saga->despachar('Persona')->new;
     context "Y DADA una Propiedad" => sub {
       my $propiedad = Saga->despachar('Persona::Propiedad')->new(key => 'willpower');
-      context "CUANDO agrego una Propiedad a un rol en una Situacion" => sub {
+      context "CUANDO agrego una Propiedad a una Persona" => sub {
         $persona->agregar($propiedad);
         it "ENTONCES debo la propiedad en la persona" => sub {
           isa_ok $persona->willpower, 'Persona::Propiedad';
+        };
+      };
+    };
+    context "Y DADAS 2 Propiedades del mismo key" => sub {
+      my $propiedad1 = Saga->despachar('Persona::Propiedad')->new(key => 'willpower');
+      my $propiedad2 = Saga->despachar('Persona::Propiedad')->new(key => 'willpower');
+      context "CUANDO agrego una Propiedad a una Persona" => sub {
+        $persona->agregar($propiedad1);
+        $persona->agregar($propiedad2);
+        it "ENTONCES debo la propiedad en la persona" => sub {
+          isa_ok $persona->willpower, 'ARRAY';
+          isa_ok $persona->willpower->[0], 'Persona::Propiedad';
+          isa_ok $persona->willpower->[1], 'Persona::Propiedad';
         };
       };
     };

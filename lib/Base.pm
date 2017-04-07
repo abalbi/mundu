@@ -14,7 +14,7 @@ Carga los params
 =cut
 sub params {
   my $self = shift;
-  my $params = Saga->params(@_);
+  my $params = Saga->params(@_)->params_libres;
 	foreach my $key (sort keys %{$params->items}) {
 		$self->{'_'.$key} = $params->$key;
 	}

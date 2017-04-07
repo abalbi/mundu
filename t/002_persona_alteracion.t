@@ -90,52 +90,6 @@ describe "Como usuario quiero consultar el willpower de una persona" => sub {
       };
     };
   };
-  context "DADO un Saga::Params" => sub {
-    context "CUANDO no defino un param como valido" => sub {
-      my $params = Saga->params();
-      it "ENTONCES al consultarlo debo recibir un error" => sub {
-        eval {$params->no_valido}; 
-        like $@, qr/El param \'no_valido\' no esta definido/;
-      };
-    };
-    context "CUANDO lo paso a Saga::params" => sub {
-      my $params1 = Saga->params();
-      my $params2 = Saga->params($params1);
-      it "ENTONCES debo recibir la misma instancia" => sub {
-        is $params1, $params2;
-      };
-    };
-    context "CUANDO defino un param como valido" => sub {
-      my $params = Saga->params({valido => 5})->params_validos(qw(valido));
-      it "ENTONCES al consultarlo debo recibir el valor" => sub {
-        is $params->valido, 5; 
-      };
-      context "Y le asigno valor" => sub {
-        $params->valido(6);
-        it "ENTONCES al consultarlo debo recibir el valor" => sub {
-          is $params->valido, 6; 
-        };
-      };
-    };
-    context "CUANDO defino que son params libres" => sub {
-      my $params = Saga->params(valido => 5)->params_libres;
-      it "ENTONCES al consultarlo debo recibir el valor" => sub {
-        is $params->valido, 5; 
-      };
-      context "Y CUANDO defino incorrectamente los valores" => sub {
-        it "ENTONCES al consultarlo debo recibir un error" => sub {
-          eval {my $params = Saga->params('mal')->params_libres}; 
-          like $@, qr/Los parametros no se pueden parsear/;
-        };
-      };
-    };
-    context "CUANDO defino un param requerido" => sub {
-      it "ENTONCES al consultarlo debo recibir el valor" => sub {
-        eval {Saga->params->params_requeridos(qw(requeridos))};
-        like $@, qr/El param \'requeridos\' es requerido/;
-      };
-    };
-  };
 };
 
 

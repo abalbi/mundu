@@ -17,7 +17,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
     	my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
     	my $situacion = $comando->ejecutar(
     		persona => $persona,
-    		fecha => $fecha,
+    		fecha_nacimiento => $fecha,
     	);
       it "ENTONCES debo tener una situacion con la persona como sujeto" => sub {
       	isa_ok $situacion, 'Situacion';
@@ -55,16 +55,33 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
       };
     };
     context "CUANDO ejecuto un comando nacimiento con rango de edades" => sub {
-    	my $fecha = Saga->dt_string(year => 1971)->datetime;
+      my $fecha = Saga->dt_string(year => 1971)->datetime;
       my $persona = Saga->despachar('Persona')->new;
-    	my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
-    	my $situacion = $comando->ejecutar(
-    		persona => $persona,
-    		edad => [30..35],
-    	);
+      my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+      my $situacion = $comando->ejecutar(
+        persona => $persona,
+        edad => [30..35],
+      );
       it "Y ENTONCES la persona tiene que tener el nacimiento coherente con la edad" => sub {
-      	cmp_ok(Saga->dt($persona->nacimiento->valor)->year, '<', 1960);
-      	cmp_ok(Saga->dt($persona->nacimiento->valor)->year, '>', 1955);
+        cmp_ok(Saga->dt($persona->nacimiento->valor)->year, '>', 1955);
+        cmp_ok(Saga->dt($persona->nacimiento->valor)->year, '<', 1960);
+      };
+    };
+    context "CUANDO ejecuto un comando nacimiento con rango de fechas" => sub {
+      my $fecha_desde = Saga->dt_string(year => 1971)->datetime;
+      my $fecha_hasta = Saga->dt_string(year => 1974)->datetime;
+      my $persona = Saga->despachar('Persona')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+      my $situacion = $comando->ejecutar(
+        persona => $persona,
+        fecha_nacimiento => {
+          desde => $fecha_desde,
+          hasta => $fecha_hasta,
+        },
+      );
+      it "Y ENTONCES la persona tiene que tener el nacimiento coherente con la edad" => sub {
+        cmp_ok(Saga->dt($persona->nacimiento->valor)->year, '>', 1970);
+        cmp_ok(Saga->dt($persona->nacimiento->valor)->year, '<', 1974);
       };
     };
     context "CUANDO ejecuto un comando nacimiento con edad mal definido" => sub {
