@@ -14,7 +14,7 @@ describe "Como desarrollador quiero que mis personas tengan atributos" => sub {
     context "CUANDO ejecuto un comando atributos physical" => sub {
       my $persona = Saga->despachar('Persona')->new;
       my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new;
-      $comando->ejecutar( persona => $persona, puntos => 7 );
+      $comando->ejecutar( persona => $persona, physical => 7 );
       it "ENTONCES debo tener una persona con atributos" => sub {
         ok $persona->strength;
         ok $persona->dexterity;

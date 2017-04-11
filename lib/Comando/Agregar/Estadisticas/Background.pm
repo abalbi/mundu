@@ -1,4 +1,4 @@
-package Comando::Agregar::Estadisticas::Skill;
+package Comando::Agregar::Estadisticas::Background;
 use strict;
 use Data::Dumper;
 use fields qw();
@@ -9,15 +9,17 @@ Agrega sexo
 =cut
 sub _ejecutar {
 	my $self = shift;
-  my $atributos = [qw(animal_ken drive etiquette firearms  melee music repair security stealth survival)];
+  my $atributos = [qw(allies contacts fame influence mentor resources status herd retainers)];
   my $params = Saga->params(@_)
     ->params_requeridos(qw(persona))->params_validos(@$atributos)->params_validos(qw(puntos flags min max atributos));
-  $params->puntos($params->skill);
+  $params->puntos($params->background);
   $params->atributos($atributos);
   $params->min(0);
   $params->max(5);
-  $params->flags([qw(skill ability)]);
+  $params->flags([qw(advantage background)]);
   $self->SUPER::_ejecutar($params);
 }
 
 1;
+
+

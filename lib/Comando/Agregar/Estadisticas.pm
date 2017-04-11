@@ -16,7 +16,6 @@ sub _ejecutar {
   $self->max($params->max);
   my $puntos = $params->puntos;
   my $hash = {};
-  $Data::Dumper::Maxdepth = 3;
   map {$hash->{$_} = $params->$_} @{$atributos};
   my $sum_preasignados = 0;
   map {$sum_preasignados = ($sum_preasignados - $self->min + $params->$_) if defined $params->$_} @$atributos;

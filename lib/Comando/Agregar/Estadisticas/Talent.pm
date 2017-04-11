@@ -11,7 +11,8 @@ sub _ejecutar {
 	my $self = shift;
   my $atributos = [qw(acting alertness athletics brawl dodge empathy expression intimidation leadership streetwise subterfuge)];
   my $params = Saga->params(@_)
-    ->params_requeridos(qw(persona puntos))->params_validos(@$atributos)->params_validos(qw(atributos min max flags));
+    ->params_requeridos(qw(persona))->params_validos(@$atributos)->params_validos(qw(puntos atributos min max flags));
+  $params->puntos($params->talent);  
   $params->atributos($atributos);
   $params->min(0);
   $params->max(5);

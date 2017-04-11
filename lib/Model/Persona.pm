@@ -1,7 +1,8 @@
 package Persona;
 use Data::Dumper;
-use fields qw(_items);
+use fields qw(_items _tpl);
 use base qw(Base);
+use Template::Simple;
 
 our $AUTOLOAD;
 
@@ -68,19 +69,27 @@ sub categorias {
 
 sub tiene {
   my $self = shift;
-  my $key = shift;
-  return 1 if scalar grep {$_->key eq $key} @{$self->propiedades};
-  return 0;  
+  my $keys = shift;
+  $keys = [$keys] if not ref $keys eq 'ARRAY';
+  foreach my $key (@$keys) {
+    return 0 if not scalar grep {$_->key eq $key} @{$self->propiedades};
+  }
+  return 1;  
 }
 
 sub describir {
   my $self = shift;
   my $str;
-  $str .= $self->nombre->t;
-  $str .= ',';
-  $str .= $self->edad->t;
-  $str .= ',';
-  $str .= $self->sexo->t;
+  if($self->template) {
+    my $data = $self->hash_tagged;
+    $str = Template::Simple->new->render( \$self->template, $data ) ;
+  } else {
+    $str .= $self->nombre->t;
+    $str .= ',';
+    $str .= $self->edad->t;
+    $str .= ',';
+    $str .= $self->sexo->t;
+  }
   return $str;
 }
 
@@ -94,8 +103,32 @@ sub hash {
   my $self = shift;
   my $keys = [@_];
   my $hash = {};
-  map {$hash->{$_} = $self->$_->valor} @$keys;
+  if(not scalar @$keys) {
+    $keys = [map {$_->key} @{$self->propiedades}];
+  }
+  map {
+    $hash->{$_} = $self->$_->valor if $self->$_->valor;
+    $hash->{$_} = $self->$_->valor->fecha if ref $self->$_->valor eq 'Situacion';
+  } @$keys;
   return $hash;
+}
+
+sub hash_tagged {
+  my $self = shift;
+  $hash = $self->hash(@_);
+  my $hash_tagged = {};
+  foreach my $key (sort keys %$hash) {
+    my $flags = $self->$key->flags;
+    if(scalar @$flags) {
+      foreach my $flag (@$flags) {
+        $hash_tagged->{$flag} = [] if !$hash_tagged->{$flag};
+        push @{$hash_tagged->{$flag}}, {key => $key, valor => $hash->{$key}};
+      }
+    } else {
+      $hash_tagged->{$key} = $hash->{$key}      
+    }
+  }
+  return $hash_tagged;
 }
 
 sub sum {
@@ -103,11 +136,17 @@ sub sum {
   my $key = shift;
   my $keys = [];
   foreach my $item (@{$self->propiedades}) {
-    $Data::Dumper::Maxdepth = 2;
     if($item->es($key)) {
       push @$keys, $item->key;
     }
   }
   return Saga->sum($self->hash(@$keys));
+}
+
+sub template {
+  my $self = shift;
+  my $tpl = shift;
+  $self->{_tpl} = $tpl if defined $tpl;
+  $self->{_tpl};
 }
 1;

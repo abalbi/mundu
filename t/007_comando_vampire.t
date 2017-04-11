@@ -20,6 +20,8 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
     my $talents = shift @$abilities;
     my $skills = shift @$abilities;
     my $knowledge = shift @$abilities;
+    my $background = 5;
+    my $virtues = 7;
     my $comando = Saga->despachar('Comando::Vampire')->new;
     my $persona = $comando->ejecutar(
       physical => $physical,
@@ -28,6 +30,8 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       talent => $talents,
       skill => $skills,
       knowledge => $knowledge,
+      background => $background,
+      virtue => $virtues,
     );
     it "ENTONCES debo tener una vampiro" => sub {
       is $persona->especie->valor, 'vampire';
@@ -57,6 +61,11 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       is $persona->sum('skill'), $skills;
       is $persona->sum('knowledge'), $knowledge;
       is $persona->sum('ability'), $talents + $skills + $knowledge;
+      is $persona->sum('background'), $background;
+      is $persona->sum('virtue'), $virtues + 3;
+      is $persona->willpower->valor, $persona->courage->valor;
+      is $persona->humanity->valor, $persona->self_control->valor + $persona->conscience->valor;
+      print STDERR Dumper [$persona->describir];
     };
   };
 };

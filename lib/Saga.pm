@@ -10,18 +10,21 @@ use List::Util qw(shuffle);
 use base qw(Base);
 use Comando;
 use Comando::Agregar::Estadisticas;
+use Comando::Agregar::Estadisticas::Background;
 use Comando::Agregar::Estadisticas::Physical;
 use Comando::Agregar::Estadisticas::Social;
 use Comando::Agregar::Estadisticas::Mental;
 use Comando::Agregar::Estadisticas::Talent;
 use Comando::Agregar::Estadisticas::Skill;
 use Comando::Agregar::Estadisticas::Knowledge;
+use Comando::Agregar::Estadisticas::Virtue;
+use Comando::Agregar::Estadisticas::Willpower;
+use Comando::Agregar::Estadisticas::Humanity;
 use Comando::Agregar::Clan;
 use Comando::Agregar::Especie;
 use Comando::Agregar::Nacimiento;
 use Comando::Agregar::Nombre;
 use Comando::Agregar::Sexo;
-use Comando::Agregar::Willpower;
 use Comando::Hacer::Abrazo;
 use Comando::Hacer::Persona;
 use Comando::Hacer::Situacion;
@@ -161,7 +164,7 @@ sub code2seconds {
   return $seg;
 }
 
-our $srand_default = 24170987;
+our $srand_default = 24170985;
 our $srand_asignado = 0;
 our $srand_next;
 our $srand;
@@ -173,12 +176,11 @@ sub azar {
   my $self = shift;
   my $valor = shift;
   saga_srand();
+#  print STDERR Dumper [$valor];
   return $valor->[int rand scalar @$valor] if ref $valor eq 'ARRAY'; 
   return int rand $valor + 1 if $valor =~ /^\d+$/;
   return undef;
 }
-
-
 
 sub saga_srand {
   my $srand_param = shift;
@@ -201,6 +203,7 @@ sub saga_srand {
     $log_msg = 'CUSTOM ';
   }
   if(!$srand_asignado) {
+    $srand = undef if $srand eq 'Saga';
     $srand = $srand_default if !$srand;
     srand(int($srand));
     $srand_next = nuevo_srand() if $generar_next;

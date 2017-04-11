@@ -14,7 +14,7 @@ describe "Como desarrollador quiero que mis personas tengan willpower" => sub {
     context "CUANDO ejecuto un comando willpower" => sub {
       my $persona = Saga->despachar('Persona')->new;
       Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Willpower')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Willpower')->new;
       $comando->ejecutar(persona => $persona);
       it "ENTONCES debo tener un vampire con willpower" => sub {
         ok $persona->willpower;
@@ -24,7 +24,7 @@ describe "Como desarrollador quiero que mis personas tengan willpower" => sub {
     context "CUANDO ejecuto un comando willpower con valor de willpower" => sub {
       my $persona = Saga->despachar('Persona')->new;
       Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Willpower')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Willpower')->new;
       $comando->ejecutar(persona => $persona, willpower => 7);
       it "ENTONCES debo tener un vampire con willpower 7" => sub {
         is $persona->willpower->valor, 7;
