@@ -1,8 +1,8 @@
-package Comando::Agregar::Atributos::Mental;
+package Comando::Agregar::Estadisticas::Mental;
 use strict;
 use Data::Dumper;
 use fields qw();
-use base qw(Comando::Agregar::Atributos);
+use base qw(Comando::Agregar::Estadisticas);
 
 =item
 Agrega sexo

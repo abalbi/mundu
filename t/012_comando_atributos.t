@@ -13,7 +13,7 @@ describe "Como desarrollador quiero que mis personas tengan atributos" => sub {
   context "DADA una persona" => sub {
     context "CUANDO ejecuto un comando atributos physical" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Atributos::Physical')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new;
       $comando->ejecutar( persona => $persona, puntos => 7 );
       it "ENTONCES debo tener una persona con atributos" => sub {
         ok $persona->strength;
@@ -24,7 +24,7 @@ describe "Como desarrollador quiero que mis personas tengan atributos" => sub {
     };
     context "CUANDO ejecuto un comando atributos physical con un atributo asignado" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Atributos::Physical')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new;
       $comando->ejecutar( persona => $persona, puntos => 7, strength => 5 );
       it "ENTONCES debo tener una persona con atributos" => sub {
         is $persona->strength->valor, 5;
@@ -46,7 +46,7 @@ describe "Como desarrollador quiero que mis personas tengan atributos" => sub {
     };
     context "CUANDO ejecuto un comando atributos physical asignando los atributos con mas valor que los puntos" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Atributos::Physical')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new;
       it "ENTONCES debo recibir un error" => sub {
         eval {
           $comando->ejecutar( persona => $persona, puntos => 7, strength => 5, dexterity => 5 );
@@ -56,7 +56,7 @@ describe "Como desarrollador quiero que mis personas tengan atributos" => sub {
     };
     context "CUANDO ejecuto un comando atributos physical asignando los atributos con menos valor que los puntos" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Atributos::Physical')->new;
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new;
       it "ENTONCES debo recibir un error" => sub {
         eval {
           $comando->ejecutar( persona => $persona, puntos => 7, strength => 1, dexterity => 1 );

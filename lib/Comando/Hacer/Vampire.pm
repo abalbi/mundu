@@ -28,12 +28,12 @@ sub _ejecutar {
   });
   $persona->agregar(Saga->despachar('Persona::Propiedad::Antiguedad')->new);
   $persona->agregar(Saga->despachar('Persona::Propiedad::EdadAparente')->new);
-  Saga->despachar('Comando::Agregar::Atributos::Physical')->new->ejecutar( persona => $persona, puntos => $params->physical );
-  Saga->despachar('Comando::Agregar::Atributos::Social')->new->ejecutar( persona => $persona, puntos => $params->social );
-  Saga->despachar('Comando::Agregar::Atributos::Mental')->new->ejecutar( persona => $persona, puntos => $params->mental );
-  Saga->despachar('Comando::Agregar::Atributos::Talent')->new->ejecutar( persona => $persona, puntos => $params->talent );
-  Saga->despachar('Comando::Agregar::Atributos::Skill')->new->ejecutar( persona => $persona, puntos => $params->skill );
-  Saga->despachar('Comando::Agregar::Atributos::Knowledge')->new->ejecutar( persona => $persona, puntos => $params->knowledge );
+  Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new->ejecutar( persona => $persona, puntos => $params->physical );
+  Saga->despachar('Comando::Agregar::Estadisticas::Social')->new->ejecutar( persona => $persona, puntos => $params->social );
+  Saga->despachar('Comando::Agregar::Estadisticas::Mental')->new->ejecutar( persona => $persona, puntos => $params->mental );
+  Saga->despachar('Comando::Agregar::Estadisticas::Talent')->new->ejecutar( persona => $persona, puntos => $params->talent );
+  Saga->despachar('Comando::Agregar::Estadisticas::Skill')->new->ejecutar( persona => $persona, puntos => $params->skill );
+  Saga->despachar('Comando::Agregar::Estadisticas::Knowledge')->new->ejecutar( persona => $persona, puntos => $params->knowledge );
   return $persona;
 }
 

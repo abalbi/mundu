@@ -1,8 +1,8 @@
-package Comando::Agregar::Atributos::Talent;
+package Comando::Agregar::Estadisticas::Talent;
 use strict;
 use Data::Dumper;
 use fields qw();
-use base qw(Comando::Agregar::Atributos);
+use base qw(Comando::Agregar::Estadisticas);
 
 =item
 Agrega sexo

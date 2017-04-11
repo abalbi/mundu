@@ -1,4 +1,4 @@
-package Comando::Agregar::Atributos;
+package Comando::Agregar::Estadisticas;
 use strict;
 use Data::Dumper;
 use fields qw(_min _max);
