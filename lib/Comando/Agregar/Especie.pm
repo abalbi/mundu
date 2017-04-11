@@ -12,7 +12,7 @@ sub _ejecutar {
   my $params = Saga->params(@_)->params_requeridos(qw(persona))->params_validos(qw(especie fecha));
   my $persona = $params->persona;
   my $fecha = $params->fecha;
-  $fecha = $persona->nacimiento->valor;
+  $fecha = Saga->entorno->fecha_actual;
   my $especie = $params->especie;
   $especie = 'humano' if not defined $especie;
   $persona->agregar(Saga->despachar('Persona::Propiedad::Categoria')->new(key => 'especie'));
@@ -21,13 +21,6 @@ sub _ejecutar {
   $params_alteracion->{fecha} = $fecha;
   $persona->especie->agregar_alteracion($params_alteracion);
 
-}
-
-=item
-Propiedades obligatorias para personas
-=cut
-sub persona_propiedades_obligatorios {
-  return [];
 }
 
 1;

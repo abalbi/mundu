@@ -20,6 +20,9 @@ describe "Como desarrollador quiero fabricar personas" => sub {
       ok $persona->edad->valor;
       my $descripcion = $persona->describir;
       like $descripcion, qr/\w+,\d+,\w/;
+      my $nacimiento = $persona->nacimiento->valor;
+      is scalar(grep {$nacimiento eq $_} @{Saga->entorno->items}), 1;
+      is scalar(grep {$persona eq $_} @{Saga->entorno->items}), 1;
     };
   };
   context "CUANDO ejecuto un comando persona" => sub {

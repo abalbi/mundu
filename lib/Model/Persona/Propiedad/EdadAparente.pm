@@ -14,6 +14,6 @@ sub new {
 
 sub valor {
 	my $self = shift;
-	return Saga->dt($self->persona->abrazo->valor)->year - Saga->dt($self->persona->nacimiento->valor)->year;
+	return Saga->dt($self->persona->abrazo->valor->fecha)->year - Saga->dt($self->persona->nacimiento->valor->fecha)->year;
 }
 1;

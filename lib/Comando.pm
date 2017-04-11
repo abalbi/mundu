@@ -21,21 +21,8 @@ Ejecuta la validacion y ejecuta el comando especifico
 sub ejecutar {
   my $self = shift;
   my $params = Saga->params(@_);
-	$self->validar_persona($params);
+#	$self->validar_persona($params);
 	return $self->_ejecutar($params);	
 }
 
-=item
-Validad propiedades de persona
-=cut
-sub validar_persona {
-  my $self = shift;
-  my $params = Saga->params(@_)->params_validos(qw(persona));
-	if($params->persona) {
-		foreach my $propiedad (@{$self->persona_propiedades_obligatorios}) {
-			$self->logger->logconfess("La persona debe tener la propiedad '$propiedad' con valor") if not $params->persona->tiene($propiedad);
-		}
-	}
-	return 1;	
-}
 1;

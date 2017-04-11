@@ -26,18 +26,11 @@ sub _ejecutar {
   		key => 'nacimiento',
   		sujeto => $persona,
   	);
+    $persona->agregar(Saga->despachar('Persona::Propiedad::Nacimiento')->new);
+    $persona->nacimiento->agregar_alteracion(valor => $situacion, fecha => Saga->entorno->fecha_actual);
   });
-  $persona->agregar(Saga->despachar('Persona::Propiedad::Nacimiento')->new);
-  $persona->nacimiento->agregar_alteracion(valor => $situacion);
   $persona->agregar(Saga->despachar('Persona::Propiedad::Edad')->new);
 	return $situacion;	
-}
-
-=item
-Propiedades obligatorias para personas
-=cut
-sub persona_propiedades_obligatorios {
-  return [];
 }
 
 sub parsea_fecha_nacimiento {

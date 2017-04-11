@@ -84,6 +84,7 @@ Define params validos
 =cut
 sub params_validos {
   my $self = shift;
+  return $self->{_params_validos} if not scalar @_; 
 	push @{$self->{_params_validos}}, @_;
 	return $self;
 }

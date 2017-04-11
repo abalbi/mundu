@@ -1,6 +1,6 @@
 package Persona::Propiedad;
 use Data::Dumper;
-use fields qw(_key _items _persona);
+use fields qw(_key _items _persona _flags);
 use base qw(Base);
 
 =item
@@ -79,5 +79,17 @@ sub t {
 sub persona {
   my $self = shift;
   return $self->{_persona};
+}
+
+sub es {
+  my $self = shift;
+  my $key = shift;
+  return scalar grep {$key eq $_} @{$self->flags};  
+}
+
+sub flags {
+  my $self = shift;
+  $self->{_flags} = [] if not $self->{_flags};
+  return $self->{_flags};  
 }
 1;

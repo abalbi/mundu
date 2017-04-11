@@ -5,13 +5,24 @@ use DateTime;
 use DateTime::Event::Random;
 use DateTime::Format::Strptime;
 use String::Random qw(random_regex);
+use List::Util qw(shuffle);
 
 use base qw(Base);
 use Comando;
+use Comando::Agregar::Atributos;
+use Comando::Agregar::Atributos::Physical;
+use Comando::Agregar::Atributos::Social;
+use Comando::Agregar::Atributos::Mental;
+use Comando::Agregar::Atributos::Talent;
+use Comando::Agregar::Atributos::Skill;
+use Comando::Agregar::Atributos::Knowledge;
+use Comando::Agregar::Clan;
 use Comando::Agregar::Especie;
 use Comando::Agregar::Nacimiento;
 use Comando::Agregar::Nombre;
 use Comando::Agregar::Sexo;
+use Comando::Agregar::Willpower;
+use Comando::Hacer::Abrazo;
 use Comando::Hacer::Persona;
 use Comando::Hacer::Situacion;
 use Comando::Hacer::Vampire;
@@ -61,8 +72,10 @@ sub params {
   my (@params) = @_; 
   my $params;
   my $fields = {};
+  my $params_validos;
   if(scalar @params == 1 && ref $params[0] eq 'Saga::Params') {
-    $params= {(%{$params[0]->items})};
+    $params_validos = $params[0]->params_validos;
+    $params = {(%{$params[0]->items})};
   } elsif(scalar @params == 1 && ref $params[0] eq 'HASH') {
     $params = $params[0];
   } elsif (scalar @params > 1) {
@@ -71,6 +84,7 @@ sub params {
     Saga->logger()->logconfess("Los parametros no se pueden parsear") if scalar @params;
   }
   my $objeto = Saga::Params->new($fields,$params);
+  $objeto->params_validos(@$params_validos) if $params_validos;
   my $metodo = [caller(1)]->[3];
   Saga->logger()->trace($metodo, ' => { '.$objeto->serializar.' }') if $objeto->serializar;
   return $objeto;
@@ -204,4 +218,14 @@ sub nuevo_srand {
   return $string;
 }
 
+=item
+Suma elemento de un hash
+=cut
+sub sum {
+  my $self = shift;
+  my $hash = shift;
+  my $sum;
+  map {$sum = $sum + $hash->{$_}} keys %$hash;
+  return $sum;
+}
 1;

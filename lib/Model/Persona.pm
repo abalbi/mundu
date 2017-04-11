@@ -90,5 +90,24 @@ sub es {
   return scalar grep {$_->valor eq $key} @{$self->categorias}
 }
 
+sub hash {
+  my $self = shift;
+  my $keys = [@_];
+  my $hash = {};
+  map {$hash->{$_} = $self->$_->valor} @$keys;
+  return $hash;
+}
 
+sub sum {
+  my $self = shift;
+  my $key = shift;
+  my $keys = [];
+  foreach my $item (@{$self->propiedades}) {
+    $Data::Dumper::Maxdepth = 2;
+    if($item->es($key)) {
+      push @$keys, $item->key;
+    }
+  }
+  return Saga->sum($self->hash(@$keys));
+}
 1;

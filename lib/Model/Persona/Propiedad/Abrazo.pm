@@ -22,6 +22,7 @@ sub agregar_alteracion {
 sub valor {
 	my $self = shift;
 	my $valor = $self->SUPER::valor;
-	return $valor->fecha;
+	return $valor;
 }
+
 1;

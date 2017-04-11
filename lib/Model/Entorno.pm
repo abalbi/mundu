@@ -46,8 +46,8 @@ sub items {
 sub agregar {
 	my $self = shift;
 	my $items = [@_];
-	if(scalar grep {not $_->isa('Situacion')} @$items) {
-		$self->logger->logconfess("Para agregar a un Entorno debe ser una Situacion");
+	if(scalar grep {not $_->isa('Situacion')} grep {not $_->isa('Persona')} @$items) {
+		$self->logger->logconfess("Para agregar a un Entorno debe ser una Situacion o Persona");
 	}
 	push @{$self->items}, @$items;
 }

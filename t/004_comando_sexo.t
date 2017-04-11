@@ -34,7 +34,7 @@ describe "Como desarrollador quiero que mis personas tengan sexo" => sub {
       my $comando = Saga->despachar('Comando::Agregar::Sexo')->new;
       it "ENTONCES debo tener una situacion con la persona como sujeto" => sub {
         eval {$comando->ejecutar(persona => $persona)};
-        like $@, qr/La persona debe tener la propiedad \'nacimiento\' con valor/;
+        like $@, qr/No se encontro Persona::nacimiento en fecha 1990-01-01T00:00:00/;
       };
     };
   };

@@ -14,6 +14,7 @@ sub _ejecutar {
   Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona, edad => $params->edad, fecha_nacimiento => $params->fecha_nacimiento);
   Saga->despachar('Comando::Agregar::Sexo')->new->ejecutar(persona => $persona, sexo => $params->sexo);
   Saga->despachar('Comando::Agregar::Nombre')->new->ejecutar(persona => $persona, nombre => $params->nombre);
+	Saga->entorno->agregar($persona);
   return $persona;
 }
 

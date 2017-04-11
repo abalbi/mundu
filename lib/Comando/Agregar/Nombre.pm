@@ -22,12 +22,5 @@ sub _ejecutar {
   $persona->nombre->agregar_alteracion($params_alteracion);
 }
 
-=item
-Propiedades obligatorias para personas
-=cut
-sub persona_propiedades_obligatorios {
-  return [qw(nacimiento sexo)];
-}
-
 1;
 
