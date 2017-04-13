@@ -5,6 +5,11 @@ use fields qw(_min _max);
 use base qw(Comando);
 
 =item
+Tipo return
+=cut
+sub tipo_return {'Persona'};
+
+=item
 Agrega sexo
 =cut
 sub _ejecutar {
@@ -16,7 +21,8 @@ sub _ejecutar {
   $self->max($params->max);
   my $puntos = $params->puntos;
   my $hash = {};
-  map {$hash->{$_} = $params->$_} @{$atributos};
+  map {$hash->{$_} = $self->min} @{$atributos};
+  map {$hash->{$_} = $params->$_ if defined $params->$_} @{$atributos};
   my $sum_preasignados = 0;
   map {$sum_preasignados = ($sum_preasignados - $self->min + $params->$_) if defined $params->$_} @$atributos;
   my $sum_defaults = 0;
@@ -50,6 +56,7 @@ sub _ejecutar {
       $persona->$atributo->agregar_alteracion($params_alteracion);
     }
   }
+  return $persona;
 }
 
 sub validar_valor {

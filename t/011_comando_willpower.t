@@ -30,5 +30,15 @@ describe "Como desarrollador quiero que mis personas tengan willpower" => sub {
         is $persona->willpower->valor, 7;
       };
     };
+    context "CUANDO ejecuto un comando humanity con valor de courage" => sub {
+      my $persona = Saga->despachar('Persona')->new;
+      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
+      Saga->despachar('Comando::Agregar::Estadisticas::Virtue')->new->ejecutar(persona => $persona, puntos => 7);
+      my $comando = Saga->despachar('Comando::Agregar::Estadisticas::Willpower')->new;
+      $comando->ejecutar(persona => $persona);
+      it "ENTONCES debo tener un vampire con humanity igual a la suma de courage " => sub {
+        is $persona->willpower->valor, $persona->courage->valor;
+      };
+    };
   };
 };

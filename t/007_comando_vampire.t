@@ -11,7 +11,7 @@ Saga->saga_srand;
 #cover -delete; PERL5OPT=-MDevel::Cover=+inc,/Volumes/UFS prove -v -I../lib "$@" && cover
 
 describe "Como desarrollador quiero fabricar vampiros" => sub {
-  context "CUANDO ejecuto un comando vampiro" => sub {
+  context "CUANDO ejecuto un comando vampiro con params" => sub {
     my $attributes = [shuffle(qw(7 5 3))];
     my $physical = shift @$attributes;
     my $social = shift @$attributes;
@@ -39,14 +39,16 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       ok $persona->abrazo;
       ok $persona->abrazo->valor;
       isa_ok $persona->abrazo->valor, 'Situacion';
+      ok $persona->generacion;
+      ok $persona->generacion->valor;
       ok $persona->antiguedad;
       ok $persona->antiguedad->valor;
       ok $persona->edad_aparente;
       ok $persona->edad_aparente->valor;
       cmp_ok(Saga->dt($persona->nacimiento->valor->fecha)->epoch, '<', Saga->dt($persona->abrazo->valor->fecha)->epoch);
-      ok $persona->strength;
-      ok $persona->dexterity;
-      ok $persona->stamina;
+      ok $persona->strength->valor;
+      ok $persona->dexterity->valor;
+      ok $persona->stamina->valor;
       ok $persona->charisma;
       ok $persona->manipulation;
       ok $persona->appearance;
@@ -65,7 +67,7 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       is $persona->sum('virtue'), $virtues + 3;
       is $persona->willpower->valor, $persona->courage->valor;
       is $persona->humanity->valor, $persona->self_control->valor + $persona->conscience->valor;
-      print STDERR Dumper [$persona->describir];
+      like $persona->describir, qr/generacion/;
     };
   };
 };

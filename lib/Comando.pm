@@ -21,8 +21,11 @@ Ejecuta la validacion y ejecuta el comando especifico
 sub ejecutar {
   my $self = shift;
   my $params = Saga->params(@_);
-#	$self->validar_persona($params);
-	return $self->_ejecutar($params);	
+	my $res = $self->_ejecutar($params);
+	if(not $res->isa($self->tipo_return)) {
+		$self->logger->logconfess("Se espera que $self devuelva un tipo ". $self->tipo_return);
+	}
+	return $res;	
 }
 
 1;

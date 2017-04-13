@@ -4,6 +4,11 @@ use Data::Dumper;
 use fields qw();
 use base qw(Comando);
 
+=item
+Tipo return
+=cut
+sub tipo_return {'Situacion'}
+
 sub _ejecutar {
 	my $self = shift;
 	my $params = Saga->params(@_)->params_requeridos(qw(key))->params_libres;

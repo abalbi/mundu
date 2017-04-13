@@ -4,6 +4,10 @@ use Data::Dumper;
 use fields qw();
 use base qw(Comando);
 
+=item
+Tipo return
+=cut
+sub tipo_return {'Situacion'};
 
 =item
 Agrega nacimiento y edad a persona
@@ -30,7 +34,7 @@ sub _ejecutar {
     $persona->nacimiento->agregar_alteracion(valor => $situacion, fecha => Saga->entorno->fecha_actual);
   });
   $persona->agregar(Saga->despachar('Persona::Propiedad::Edad')->new);
-	return $situacion;	
+	return $situacion;
 }
 
 sub parsea_fecha_nacimiento {

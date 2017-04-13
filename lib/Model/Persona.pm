@@ -82,7 +82,7 @@ sub describir {
   my $str;
   if($self->template) {
     my $data = $self->hash_tagged;
-    $str = Template::Simple->new->render( \$self->template, $data ) ;
+    $str = ${Template::Simple->new->render( \$self->template, $data )};
   } else {
     $str .= $self->nombre->t;
     $str .= ',';
@@ -107,8 +107,8 @@ sub hash {
     $keys = [map {$_->key} @{$self->propiedades}];
   }
   map {
-    $hash->{$_} = $self->$_->valor if $self->$_->valor;
     $hash->{$_} = $self->$_->valor->fecha if ref $self->$_->valor eq 'Situacion';
+    $hash->{$_} = $self->$_->valor if $self->$_->valor;
   } @$keys;
   return $hash;
 }

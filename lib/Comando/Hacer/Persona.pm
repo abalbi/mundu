@@ -4,6 +4,9 @@ use Data::Dumper;
 use fields qw();
 use base qw(Comando);
 
+
+sub tipo_return {'Persona'};
+
 =item
 Agrega sexo
 =cut

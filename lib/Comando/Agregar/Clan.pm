@@ -5,6 +5,11 @@ use fields qw();
 use base qw(Comando);
 
 =item
+Tipo return
+=cut
+sub tipo_return {'Persona'};
+
+=item
 Agrega nombre
 =cut
 sub _ejecutar {
@@ -20,6 +25,7 @@ sub _ejecutar {
   $clan = $self->calcula_clan if !$clan;
   $persona->agregar(Saga->despachar('Persona::Propiedad::Categoria')->new(key => 'clan'));
   $persona->clan->agregar_alteracion(valor => $clan, fecha => $fecha);
+  return $persona;
 }
 
 sub calcula_clan {

@@ -5,6 +5,11 @@ use fields qw();
 use base qw(Comando);
 
 =item
+Tipo return
+=cut
+sub tipo_return {'Persona'};
+
+=item
 Agrega nombre
 =cut
 sub _ejecutar {
@@ -20,7 +25,7 @@ sub _ejecutar {
   $params_alteracion->{valor} = $especie;
   $params_alteracion->{fecha} = $fecha;
   $persona->especie->agregar_alteracion($params_alteracion);
-
+  return $persona;
 }
 
 1;

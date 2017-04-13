@@ -21,6 +21,7 @@ use Comando::Agregar::Estadisticas::Virtue;
 use Comando::Agregar::Estadisticas::Willpower;
 use Comando::Agregar::Estadisticas::Humanity;
 use Comando::Agregar::Clan;
+use Comando::Agregar::Generacion;
 use Comando::Agregar::Especie;
 use Comando::Agregar::Nacimiento;
 use Comando::Agregar::Nombre;
@@ -29,6 +30,7 @@ use Comando::Hacer::Abrazo;
 use Comando::Hacer::Persona;
 use Comando::Hacer::Situacion;
 use Comando::Hacer::Vampire;
+use Fabrica::Vampire;
 use Model::Alteracion;
 use Model::Entorno;
 use Model::Persona;
@@ -114,8 +116,8 @@ sub dt_random {
   my $params = Saga->params(@_)->params_validos(qw(desde hasta));
   my $desde = $params->desde;
   my $hasta = $params->hasta;
+  $desde = Saga->dt(Saga->entorno->fecha_inicio)->subtract(years => 3000)->datetime if not defined $desde;
   $hasta = Saga->entorno->fecha_actual if not defined $hasta;
-  $desde = Saga->dt(Saga->entorno->fecha_actual)->subtract(years => 3000)->datetime if not defined $desde;
   if(Saga->dt($hasta)->epoch < Saga->dt($desde)->epoch) {
     Saga->logger->logconfess("Desde (".$desde.") debe ser menor que Hasta (".$hasta.")");
   }
@@ -176,7 +178,6 @@ sub azar {
   my $self = shift;
   my $valor = shift;
   saga_srand();
-#  print STDERR Dumper [$valor];
   return $valor->[int rand scalar @$valor] if ref $valor eq 'ARRAY'; 
   return int rand $valor + 1 if $valor =~ /^\d+$/;
   return undef;
