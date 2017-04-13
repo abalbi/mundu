@@ -1,3 +1,4 @@
+
 use strict;
 use lib 'lib';
 use Test::More qw(no_plan);
@@ -13,8 +14,8 @@ describe "Como desarrollador quiero que mis personas tengan sexo" => sub {
   context "DADA una persona" => sub {
     context "CUANDO ejecuto un comando sexo" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Sexo')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Sexo')->new;
       $comando->ejecutar(persona => $persona);
       it "ENTONCES debo tener una situacion con la persona como sujeto" => sub {
         ok $persona->sexo->valor;
@@ -22,8 +23,8 @@ describe "Como desarrollador quiero que mis personas tengan sexo" => sub {
     };
     context "CUANDO ejecuto un comando sexo dando un sexo" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Sexo')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Sexo')->new;
       $comando->ejecutar(persona => $persona, sexo => 'f');
       it "ENTONCES debo tener una situacion con la persona como sujeto" => sub {
         is $persona->sexo->valor, 'f';
@@ -31,7 +32,7 @@ describe "Como desarrollador quiero que mis personas tengan sexo" => sub {
     };
     context "CUANDO ejecuto un comando sexo sin nacimiento" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Sexo')->new;
+      my $comando = Saga->despachar('Comando::Conceptos::Sexo')->new;
       it "ENTONCES debo tener una situacion con la persona como sujeto" => sub {
         eval {$comando->ejecutar(persona => $persona)};
         like $@, qr/No se encontro Persona::nacimiento en fecha 1990-01-01T00:00:00/;

@@ -1,4 +1,4 @@
-package Comando::Vampire;
+package WhiteWolf::Comando::Hacer::Vampire;
 use strict;
 use Data::Dumper;
 use fields qw();
@@ -15,7 +15,7 @@ sub _ejecutar {
     ->params_requeridos(qw(physical social mental talent skill knowledge background virtue))
     ->params_validos(qw(persona edad_aparente edad fecha_nacimiento clan willpower humanity especie))
     ->params_excluyentes(qw(fecha_abrazo antiguedad));
-  $params = Saga->despachar('Comando::Hacer::Abrazo')->new->ejecutar($params); 
+  $params = Saga->despachar('Comando::Conceptos::Abrazo')->new->ejecutar($params); 
   my $persona = $self->SUPER::_ejecutar($params);
   $persona->template($self->plantilla_descripcion);
   $params->persona($persona);
@@ -26,9 +26,9 @@ sub _ejecutar {
       key => 'abrazo',
       sujeto => $persona,
     );
-    Saga->despachar('Comando::Agregar::Especie')->new->ejecutar($params); 
-    Saga->despachar('Comando::Agregar::Clan')->new->ejecutar($params); 
-    Saga->despachar('Comando::Agregar::Generacion')->new->ejecutar($params);
+    Saga->despachar('Comando::Conceptos::Especie')->new->ejecutar($params); 
+    Saga->despachar('Comando::Conceptos::Clan')->new->ejecutar($params); 
+    Saga->despachar('Comando::Conceptos::Generacion')->new->ejecutar($params);
     if($persona->generacion->valor > 7) {
       my $sire = Saga->despachar('Fabrica::Vampire')->hacer(
         generacion => $persona->generacion->valor - 1,
@@ -43,16 +43,16 @@ sub _ejecutar {
   });
   $persona->agregar(Saga->despachar('Persona::Propiedad::Antiguedad')->new);
   $persona->agregar(Saga->despachar('Persona::Propiedad::EdadAparente')->new);
-  Saga->despachar('Comando::Agregar::Estadisticas::Physical')->new->ejecutar($params);
-  Saga->despachar('Comando::Agregar::Estadisticas::Social')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Mental')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Talent')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Skill')->new->ejecutar( $params);
-  Saga->despachar('Comando::Agregar::Estadisticas::Knowledge')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Background')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Virtue')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Willpower')->new->ejecutar( $params );
-  Saga->despachar('Comando::Agregar::Estadisticas::Humanity')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Physical')->new->ejecutar($params);
+  Saga->despachar('Comando::Estadisticas::Social')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Mental')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Talent')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Skill')->new->ejecutar( $params);
+  Saga->despachar('Comando::Estadisticas::Knowledge')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Background')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Virtue')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Willpower')->new->ejecutar( $params );
+  Saga->despachar('Comando::Estadisticas::Humanity')->new->ejecutar( $params );
   return $persona;
 }
 

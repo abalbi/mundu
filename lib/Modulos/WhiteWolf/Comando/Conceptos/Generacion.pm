@@ -1,4 +1,4 @@
-package Comando::Agregar::Generacion;
+package WhiteWolf::Comando::Conceptos::Generacion;
 use strict;
 use Data::Dumper;
 use fields qw();

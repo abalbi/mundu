@@ -1,4 +1,4 @@
-package Comando::Agregar::Estadisticas;
+package WhiteWolf::Comando::Estadisticas;
 use strict;
 use Data::Dumper;
 use fields qw(_min _max);

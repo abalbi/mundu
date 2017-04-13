@@ -9,37 +9,18 @@ use List::Util qw(shuffle);
 
 use base qw(Base);
 use Comando;
-use Comando::Agregar::Estadisticas;
-use Comando::Agregar::Estadisticas::Background;
-use Comando::Agregar::Estadisticas::Physical;
-use Comando::Agregar::Estadisticas::Social;
-use Comando::Agregar::Estadisticas::Mental;
-use Comando::Agregar::Estadisticas::Talent;
-use Comando::Agregar::Estadisticas::Skill;
-use Comando::Agregar::Estadisticas::Knowledge;
-use Comando::Agregar::Estadisticas::Virtue;
-use Comando::Agregar::Estadisticas::Willpower;
-use Comando::Agregar::Estadisticas::Humanity;
-use Comando::Agregar::Clan;
-use Comando::Agregar::Generacion;
-use Comando::Agregar::Especie;
-use Comando::Agregar::Nacimiento;
-use Comando::Agregar::Nombre;
-use Comando::Agregar::Sexo;
-use Comando::Hacer::Abrazo;
+use Comando::Conceptos::Nacimiento;
+use Comando::Conceptos::Nombre;
+use Comando::Conceptos::Sexo;
 use Comando::Hacer::Persona;
 use Comando::Hacer::Situacion;
-use Comando::Hacer::Vampire;
 use Fabrica::Vampire;
 use Model::Alteracion;
 use Model::Entorno;
 use Model::Persona;
 use Model::Persona::Propiedad;
-use Model::Persona::Propiedad::Abrazo;
-use Model::Persona::Propiedad::Antiguedad;
 use Model::Persona::Propiedad::Categoria;
 use Model::Persona::Propiedad::Edad;
-use Model::Persona::Propiedad::EdadAparente;
 use Model::Persona::Propiedad::Nacimiento;
 use Model::Situacion;
 use Model::Situacion::Rol;
@@ -48,16 +29,15 @@ use Saga::Params;
 
 our $LogLevel = 'FATAL';
 our $entorno;
+our $modulo;
 
 Log::Log4perl->init("log.conf");
 
-=item
-Devuelve el entorno activo
-=cut
-sub entorno {
+sub cargar {
   my $class = shift;
-  $entorno = despachar('Entorno')->new() if not $entorno;
-  return $entorno;
+  my $module = shift;
+  require 'Modulos/'.$module.'.pm';
+  $modulo = $module;
 }
 
 =item
@@ -66,7 +46,25 @@ Despacha el nombre de un package
 sub despachar {
   my $class = shift if $_[0] eq 'Saga';
   my $package = shift;
-  return $package;
+  my $pkg = $package;
+  if($modulo) {
+    my $file = 'lib/Modulos/'.$modulo.'/'.$package.'.pm';
+    $file =~ s/\:\:/\//g;
+#    print STDERR Dumper [$package, $file, -e $file];
+    if(-e $file) {
+      $pkg = $modulo.'::'.$pkg if $modulo;
+    }
+  }
+  return $pkg;
+}
+
+=item
+Devuelve el entorno activo
+=cut
+sub entorno {
+  my $class = shift;
+  $entorno = despachar('Entorno')->new() if not $entorno;
+  return $entorno;
 }
 
 =item
@@ -232,4 +230,5 @@ sub sum {
   map {$sum = $sum + $hash->{$_}} keys %$hash;
   return $sum;
 }
+
 1;

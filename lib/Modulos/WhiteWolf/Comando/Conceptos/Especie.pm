@@ -1,4 +1,4 @@
-package Comando::Agregar::Especie;
+package WhiteWolf::Comando::Conceptos::Especie;
 use strict;
 use Data::Dumper;
 use fields qw();

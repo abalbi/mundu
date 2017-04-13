@@ -1,4 +1,4 @@
-package Comando::Agregar::Clan;
+package WhiteWolf::Comando::Conceptos::Clan;
 use strict;
 use Data::Dumper;
 use fields qw();
@@ -19,7 +19,7 @@ sub _ejecutar {
   my $fecha = $params->fecha;
   $fecha = Saga->entorno->fecha_actual;
   if(not $persona->tiene('especie')) {
-    Saga->despachar('Comando::Agregar::Especie')->new->ejecutar(persona => $persona, especie => 'vampire'); 
+    Saga->despachar('Comando::Conceptos::Especie')->new->ejecutar(persona => $persona, especie => 'vampire'); 
   }
   my $clan = $params->clan;
   $clan = $self->calcula_clan if !$clan;

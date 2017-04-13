@@ -1,4 +1,4 @@
-package Comando::Agregar::Nombre;
+package Comando::Conceptos::Nombre;
 use strict;
 use Data::Dumper;
 use fields qw();

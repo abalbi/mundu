@@ -1,4 +1,4 @@
-package Comando::Agregar::Sexo;
+package Comando::Conceptos::Sexo;
 use strict;
 use Data::Dumper;
 use fields qw();

@@ -10,6 +10,8 @@ use Saga;
 Saga->saga_srand;
 #cover -delete; PERL5OPT=-MDevel::Cover=+inc,/Volumes/UFS prove -v -I../lib "$@" && cover
 
+Saga->cargar('WhiteWolf');
+
 describe "Como desarrollador quiero fabricar vampiros" => sub {
   context "CUANDO ejecuto un comando vampiro con params" => sub {
     my $attributes = [shuffle(qw(7 5 3))];
@@ -22,7 +24,7 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
     my $knowledge = shift @$abilities;
     my $background = 5;
     my $virtues = 7;
-    my $comando = Saga->despachar('Comando::Vampire')->new;
+    my $comando = Saga->despachar('Comando::Hacer::Vampire')->new;
     my $persona = $comando->ejecutar(
       physical => $physical,
       social => $social,

@@ -7,14 +7,15 @@ use Data::Dumper;
 
 use Saga;
 
+Saga->cargar('WhiteWolf');
 #cover -delete; PERL5OPT=-MDevel::Cover=+inc,/Volumes/UFS prove -v -I../lib "$@" && cover
 
 describe "Como desarrollador quiero que mis personas tengan nombre" => sub {
   context "DADA una persona" => sub {
     context "CUANDO ejecuto un comando especie" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Especie')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Especie')->new;
       $comando->ejecutar(persona => $persona);
       it "ENTONCES debo tener un nombre" => sub {
         is $persona->especie->valor, 'humano';

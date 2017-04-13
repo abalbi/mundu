@@ -1,4 +1,4 @@
-package Comando::Agregar::Nacimiento;
+package Comando::Conceptos::Nacimiento;
 use strict;
 use Data::Dumper;
 use fields qw();

@@ -6,6 +6,7 @@ use Test::Deep;
 use Data::Dumper;
 
 use Saga;
+Saga->cargar('WhiteWolf');
 
 #cover -delete; PERL5OPT=-MDevel::Cover=+inc,/Volumes/UFS prove -v -I../lib "$@" && cover
 
@@ -13,8 +14,8 @@ describe "Como desarrollador quiero que mis personas tengan generacion  " => sub
   context "DADA una persona" => sub {
     context "CUANDO ejecuto un comando generacion" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Generacion')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Generacion')->new;
       $comando->ejecutar(persona => $persona);
       it "ENTONCES debo tener un vampire con generacion" => sub {
         ok $persona->generacion;
@@ -23,8 +24,8 @@ describe "Como desarrollador quiero que mis personas tengan generacion  " => sub
     };
     context "CUANDO ejecuto un comando generacion con valor de generacion" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Generacion')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Generacion')->new;
       $comando->ejecutar(persona => $persona, generacion => 7);
       it "ENTONCES debo tener un vampire con generacion 7" => sub {
         is $persona->generacion->valor, 7;
@@ -32,7 +33,7 @@ describe "Como desarrollador quiero que mis personas tengan generacion  " => sub
     };
   };
   context "CUANDO ejecuto calcula_generacion" => sub {
-    my $comando = Saga->despachar('Comando::Agregar::Generacion')->new;
+    my $comando = Saga->despachar('Comando::Conceptos::Generacion')->new;
     it "ENTONCES debo rebicir un clan" => sub {
       is $comando->calcula_generacion(10), 13;
       is $comando->calcula_generacion(20), 12;

@@ -14,7 +14,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
     context "CUANDO ejecuto un comando nacimiento con una fecha" => sub {
       my $persona = Saga->despachar('Persona')->new;
     	my $fecha = Saga->dt_string(year => 1970)->datetime;
-    	my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+    	my $comando = Saga->despachar('Comando::Conceptos::Nacimiento')->new;
     	my $situacion = $comando->ejecutar(
     		persona => $persona,
     		fecha_nacimiento => $fecha,
@@ -29,7 +29,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
     };
     context "CUANDO ejecuto un comando nacimiento" => sub {
       my $persona = Saga->despachar('Persona')->new;
-    	my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+    	my $comando = Saga->despachar('Comando::Conceptos::Nacimiento')->new;
     	my $situacion = $comando->ejecutar(
     		persona => $persona,
     	);
@@ -41,7 +41,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
     context "CUANDO ejecuto un comando nacimiento con edad" => sub {
     	my $fecha = Saga->dt_string(year => 1971)->datetime;
       my $persona = Saga->despachar('Persona')->new;
-    	my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+    	my $comando = Saga->despachar('Comando::Conceptos::Nacimiento')->new;
     	my $situacion = $comando->ejecutar(
     		persona => $persona,
     		edad => 19,
@@ -58,7 +58,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
     context "CUANDO ejecuto un comando nacimiento con rango de edades" => sub {
       my $fecha = Saga->dt_string(year => 1971)->datetime;
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+      my $comando = Saga->despachar('Comando::Conceptos::Nacimiento')->new;
       my $situacion = $comando->ejecutar(
         persona => $persona,
         edad => [30..35],
@@ -72,7 +72,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
       my $fecha_desde = Saga->dt_string(year => 1971)->datetime;
       my $fecha_hasta = Saga->dt_string(year => 1974)->datetime;
       my $persona = Saga->despachar('Persona')->new;
-      my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+      my $comando = Saga->despachar('Comando::Conceptos::Nacimiento')->new;
       my $situacion = $comando->ejecutar(
         persona => $persona,
         fecha_nacimiento => {
@@ -88,7 +88,7 @@ describe "Como desarrollador quiero que mis personas tengan nacimiento" => sub {
     context "CUANDO ejecuto un comando nacimiento con edad mal definido" => sub {
     	my $fecha = Saga->dt_string(year => 1971)->datetime;
       my $persona = Saga->despachar('Persona')->new;
-    	my $comando = Saga->despachar('Comando::Agregar::Nacimiento')->new;
+    	my $comando = Saga->despachar('Comando::Conceptos::Nacimiento')->new;
       it "Y ENTONCES la persona tiene que tener el nacimiento coherente con la edad" => sub {
       	eval {
 		    	my $situacion = $comando->ejecutar(

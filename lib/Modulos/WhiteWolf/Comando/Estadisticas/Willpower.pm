@@ -1,8 +1,8 @@
-package Comando::Agregar::Estadisticas::Willpower;
+package WhiteWolf::Comando::Estadisticas::Willpower;
 use strict;
 use Data::Dumper;
 use fields qw();
-use base qw(Comando::Agregar::Estadisticas);
+use base qw(WhiteWolf::Comando::Estadisticas);
 
 =item
 Agrega sexo

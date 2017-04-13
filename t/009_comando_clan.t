@@ -6,6 +6,7 @@ use Test::Deep;
 use Data::Dumper;
 
 use Saga;
+Saga->cargar('WhiteWolf');
 
 #cover -delete; PERL5OPT=-MDevel::Cover=+inc,/Volumes/UFS prove -v -I../lib "$@" && cover
 
@@ -13,8 +14,8 @@ describe "Como desarrollador quiero que mis vampiros tengan clan" => sub {
   context "DADA una persona" => sub {
     context "CUANDO ejecuto un comando clan" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Clan')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Clan')->new;
       $comando->ejecutar(persona => $persona);
       it "ENTONCES debo tener un vampire con clan" => sub {
         is $persona->especie->valor, 'vampire';
@@ -24,8 +25,8 @@ describe "Como desarrollador quiero que mis vampiros tengan clan" => sub {
     };
     context "CUANDO ejecuto un comando clan y le defino un clan" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      my $comando = Saga->despachar('Comando::Agregar::Clan')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      my $comando = Saga->despachar('Comando::Conceptos::Clan')->new;
       $comando->ejecutar(persona => $persona, clan => 'brujah');
       it "ENTONCES debo tener un vampire con clan" => sub {
         is $persona->clan->valor, 'brujah';
@@ -34,9 +35,9 @@ describe "Como desarrollador quiero que mis vampiros tengan clan" => sub {
     };
     context "CUANDO ejecuto un comando clan en una persona con especie" => sub {
       my $persona = Saga->despachar('Persona')->new;
-      Saga->despachar('Comando::Agregar::Nacimiento')->new->ejecutar(persona => $persona);
-      Saga->despachar('Comando::Agregar::Especie')->new->ejecutar(persona => $persona, especie => 'vampire'); 
-      my $comando = Saga->despachar('Comando::Agregar::Clan')->new;
+      Saga->despachar('Comando::Conceptos::Nacimiento')->new->ejecutar(persona => $persona);
+      Saga->despachar('Comando::Conceptos::Especie')->new->ejecutar(persona => $persona, especie => 'vampire'); 
+      my $comando = Saga->despachar('Comando::Conceptos::Clan')->new;
       $comando->ejecutar(persona => $persona);
       it "ENTONCES debo tener un vampire con clan" => sub {
         ok $persona->clan->valor;
@@ -44,7 +45,7 @@ describe "Como desarrollador quiero que mis vampiros tengan clan" => sub {
     };
   };
   context "CUANDO ejecuto calcula_clan" => sub {
-    my $comando = Saga->despachar('Comando::Agregar::Clan')->new;
+    my $comando = Saga->despachar('Comando::Conceptos::Clan')->new;
     it "ENTONCES debo rebicir un clan" => sub {
       is $comando->calcula_clan(10), 'brujah';
       is $comando->calcula_clan(20), 'gangrel';

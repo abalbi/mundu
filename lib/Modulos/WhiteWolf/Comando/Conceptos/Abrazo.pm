@@ -1,4 +1,4 @@
-package Comando::Hacer::Abrazo;
+package WhiteWolf::Comando::Conceptos::Abrazo;
 use strict;
 use Data::Dumper;
 use fields qw();

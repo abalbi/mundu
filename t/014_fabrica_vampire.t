@@ -6,7 +6,7 @@ use Test::Deep;
 use Data::Dumper;
 
 use Saga;
-Saga->saga_srand;
+Saga->cargar('WhiteWolf');
 #cover -delete; PERL5OPT=-MDevel::Cover=+inc,/Volumes/UFS prove -v -I../lib "$@" && cover
 
 describe "Como desarrollador quiero fabricar vampiros" => sub {

@@ -20,7 +20,7 @@ sub hacer {
   $params->knowledge(shift @$abilities);
   $params->background(5);
   $params->virtue(7);
-  my $comando = Saga->despachar('Comando::Vampire')->new;
+  my $comando = Saga->despachar('Comando::Hacer::Vampire')->new;
   my $persona = $comando->ejecutar( $params );
 	return $persona;
 }
