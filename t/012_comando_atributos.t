@@ -1,3 +1,4 @@
+
 use strict;
 use lib 'lib';
 use Test::More qw(no_plan);
@@ -31,6 +32,17 @@ describe "Como desarrollador quiero que mis personas tengan atributos" => sub {
         is $persona->strength->valor, 5;
         is(Saga->sum($persona->hash(qw(dexterity stamina))), 5);
         is(Saga->sum($persona->hash(qw(strength dexterity stamina))), 10);
+      };
+      context "CUANDO ejecuto un comando atributos physical con un atributo asignado" => sub {
+        my $persona = Saga->despachar('Persona')->new;
+        my $comando = Saga->despachar('Comando::Estadisticas::Physical')->new;
+        $comando->ejecutar( persona => $persona, puntos => 3, strength => 2, dexterity => 2 );
+        it "ENTONCES debo tener una persona con atributos" => sub {
+          is $persona->strength->valor, 2;
+          is $persona->dexterity->valor, 2;
+          is $persona->stamina->valor, 2;
+          is(Saga->sum($persona->hash(qw(strength dexterity stamina))), 6);
+        };
       };
       context "Y CUANDO asigno un valor mayor al maximo" => sub {
         it "ENTONCES debo tener una persona con atributos" => sub {

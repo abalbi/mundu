@@ -15,6 +15,7 @@ sub _ejecutar {
   my $humanity = $params->humanity;
   if(not defined $humanity){
     $humanity = $persona->self_control->valor + $persona->conscience->valor if $persona->tiene([qw(self_control conscience)]);
+    $humanity = $self->max if $humanity > $self->max;
   }
   $humanity = Saga->azar([1..10]) if not defined $humanity;
   $params->min(0);

@@ -26,6 +26,7 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
     my $virtues = 7;
     my $comando = Saga->despachar('Comando::Hacer::Vampire')->new;
     my $persona = $comando->ejecutar(
+      protagonismo => 'principal',
       physical => $physical,
       social => $social,
       mental => $mental,
@@ -41,6 +42,9 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       ok $persona->abrazo;
       ok $persona->abrazo->valor;
       isa_ok $persona->abrazo->valor, 'Situacion';
+      ok $persona->sire;
+      ok $persona->sire->valor;
+      isa_ok $persona->sire->valor, 'Persona';
       ok $persona->generacion;
       ok $persona->generacion->valor;
       ok $persona->antiguedad;

@@ -44,7 +44,9 @@ sub _ejecutar {
   while (Saga->sum($hash) < $puntos + (scalar @$atributos * $self->min)) {
     my $atr = Saga->azar($atributos);
     if(not defined $params->$atr) {
-      $hash->{$atr}++;
+      my $valor = $hash->{$atr} + 1;
+      next if not scalar grep {$_ == $valor} ($self->min..$self->max);
+      $hash->{$atr} = $valor;
     }
   }
   foreach my $atributo (@{$atributos}) {

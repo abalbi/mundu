@@ -6,6 +6,7 @@ use DateTime::Event::Random;
 use DateTime::Format::Strptime;
 use String::Random qw(random_regex);
 use List::Util qw(shuffle);
+use Benchmark;
 
 use base qw(Base);
 use Comando;
@@ -14,7 +15,6 @@ use Comando::Conceptos::Nombre;
 use Comando::Conceptos::Sexo;
 use Comando::Hacer::Persona;
 use Comando::Hacer::Situacion;
-use Fabrica::Vampire;
 use Model::Alteracion;
 use Model::Entorno;
 use Model::Persona;
@@ -33,6 +33,9 @@ our $modulo;
 
 Log::Log4perl->init("log.conf");
 
+=item
+Cargar module
+=cut
 sub cargar {
   my $class = shift;
   my $module = shift;
@@ -50,9 +53,8 @@ sub despachar {
   if($modulo) {
     my $file = 'lib/Modulos/'.$modulo.'/'.$package.'.pm';
     $file =~ s/\:\:/\//g;
-#    print STDERR Dumper [$package, $file, -e $file];
     if(-e $file) {
-      $pkg = $modulo.'::'.$pkg if $modulo;
+      $pkg = $modulo.'::'.$pkg;
     }
   }
   return $pkg;

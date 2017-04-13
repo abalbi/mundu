@@ -64,7 +64,7 @@ sub _ejecutar {
     $edad_aparente = $edad - $antiguedad if $edad && $antiguedad;
 
     $edad_aparente = $self->calcula_edad_aparente if !$edad_aparente;
-    $antiguedad = Saga->azar([1..200]) if !$antiguedad;
+    $antiguedad = Saga->azar([1..50]) if !$antiguedad;
     $edad = $antiguedad + $edad_aparente if !$edad;
 
     $params->fecha_nacimiento($fecha_nacimiento);

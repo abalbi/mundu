@@ -18,7 +18,11 @@ use Modulos::WhiteWolf::Comando::Estadisticas::Willpower;
 use Modulos::WhiteWolf::Comando::Estadisticas::Humanity;
 use Modulos::WhiteWolf::Comando::Hacer::Vampire;
 
+use Modulos::WhiteWolf::Fabrica::Vampire;
+
 use Modulos::WhiteWolf::Model::Persona::Propiedad::Abrazo;
 use Modulos::WhiteWolf::Model::Persona::Propiedad::Antiguedad;
 use Modulos::WhiteWolf::Model::Persona::Propiedad::EdadAparente;
+use Modulos::WhiteWolf::Model::Persona::Propiedad::Sire;
+
 1;
