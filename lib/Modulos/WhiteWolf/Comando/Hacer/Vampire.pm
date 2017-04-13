@@ -17,8 +17,9 @@ sub _ejecutar {
     ->params_excluyentes(qw(fecha_abrazo antiguedad));
   $params = Saga->despachar('Comando::Conceptos::Abrazo')->new->ejecutar($params); 
   my $persona = $self->SUPER::_ejecutar($params);
-  $persona->template($self->plantilla_descripcion);
   $params->persona($persona);
+  $params = Saga->despachar('Comando::Conceptos::Concept')->new->ejecutar($params);
+  $persona->template($self->plantilla_descripcion);
   $params->especie('vampire');
   my $situacion;
   Saga->en_fecha($params->fecha_abrazo, sub {
@@ -42,7 +43,7 @@ sub _ejecutar {
       sire => $sire,
     );
     $persona->agregar(Saga->despachar('Persona::Propiedad::Abrazo')->new);
-    $persona->abrazo->agregar_alteracion(valor => $situacion, fecha => Saga->entorno->fecha_actual);
+    $persona->fecha_abrazo->agregar_alteracion(valor => $situacion, fecha => Saga->entorno->fecha_actual);
   });
   $persona->agregar(Saga->despachar('Persona::Propiedad::Antiguedad')->new);
   $persona->agregar(Saga->despachar('Persona::Propiedad::Sire')->new);
@@ -69,17 +70,17 @@ sub plantilla_descripcion {
 [% nombre %]
 [% especie %] [% clan %]
 generacion: [% generacion %]
-edad: [% edad%] 
+edad: [% edad%]
 edad aparente: [% edad_aparente %]
-physicals: [%START physical%][%key%]:[%valor%] [%END physical%] 
-socials: [%START social%][%key%]:[%valor%] [%END social%] 
-mentals: [%START mental%][%key%]:[%valor%] [%END mental%] 
-talents: [%START talent%][%key%]:[%valor%] [%END talent%] 
-skills: [%START skill%][%key%]:[%valor%] [%END skill%] 
-knowledges: [%START knowledge%][%key%]:[%valor%] [%END knowledge%] 
-backgrounds: [%START background%][%key%]:[%valor%] [%END background%] 
-virtues: [%START virtue%][%key%]:[%valor%] [%END virtue%] 
-extras: [%START extra%][%key%]:[%valor%] [%END extra%] 
+[%START physical%][%key%]:[%valor%] [%END physical%]
+[%START social%][%key%]:[%valor%] [%END social%]
+[%START mental%][%key%]:[%valor%] [%END mental%]
+[%START talent%][%key%]:[%valor%] [%END talent%]
+[%START skill%][%key%]:[%valor%] [%END skill%]
+[%START knowledge%][%key%]:[%valor%] [%END knowledge%]
+[%START background%][%key%]:[%valor%] [%END background%]
+[%START virtue%][%key%]:[%valor%] [%END virtue%]
+[%START extra%][%key%]:[%valor%] [%END extra%]
 TMPL
 }
 1;

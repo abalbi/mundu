@@ -17,7 +17,7 @@ sub _ejecutar {
   my $params = Saga->params(@_)->params_requeridos('persona')->params_validos(qw(nombre));
   my $persona = $params->persona;
   my $nombre = $params->nombre;
-  my $nacimiento = $persona->nacimiento->valor;
+  my $nacimiento = $persona->fecha_nacimiento->valor;
   my $sexo = $persona->sexo->valor;
   $nombre = Saga->azar(Saga->entorno->persona_nombres($sexo)) if not defined $nombre;
   $persona->agregar(Saga->despachar('Persona::Propiedad')->new(key => 'nombre'));

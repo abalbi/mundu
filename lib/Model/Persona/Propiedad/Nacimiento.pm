@@ -7,7 +7,7 @@ use fields qw();
 sub new {
 	my $class = shift;
 	my $params = Saga->params(@_)->params_validos(qw(key));
-	$params->key('nacimiento');
+	$params->key('fecha_nacimiento');
   my $self = $class->SUPER::new($params);
   return $self;
 }
@@ -15,7 +15,7 @@ sub new {
 sub agregar_alteracion {
 	my $self = shift;
 	my $params = Saga->params(@_)->params_validos('key');
-	$params->key('nacimiento');
+	$params->key('fecha_nacimiento');
   $self->SUPER::agregar_alteracion($params);
 }
 

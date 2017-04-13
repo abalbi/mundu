@@ -26,6 +26,7 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
     my $virtues = 7;
     my $comando = Saga->despachar('Comando::Hacer::Vampire')->new;
     my $persona = $comando->ejecutar(
+      concept => 'investigator',
       protagonismo => 'principal',
       physical => $physical,
       social => $social,
@@ -39,9 +40,9 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
     it "ENTONCES debo tener una vampiro" => sub {
       is $persona->especie->valor, 'vampire';
       ok $persona->es('vampire');
-      ok $persona->abrazo;
-      ok $persona->abrazo->valor;
-      isa_ok $persona->abrazo->valor, 'Situacion';
+      ok $persona->fecha_abrazo;
+      ok $persona->fecha_abrazo->valor;
+      isa_ok $persona->fecha_abrazo->valor, 'Situacion';
       ok $persona->sire;
       ok $persona->sire->valor;
       isa_ok $persona->sire->valor, 'Persona';
@@ -51,7 +52,7 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       ok $persona->antiguedad->valor;
       ok $persona->edad_aparente;
       ok $persona->edad_aparente->valor;
-      cmp_ok(Saga->dt($persona->nacimiento->valor->fecha)->epoch, '<', Saga->dt($persona->abrazo->valor->fecha)->epoch);
+      cmp_ok(Saga->dt($persona->fecha_nacimiento->valor->fecha)->epoch, '<', Saga->dt($persona->fecha_abrazo->valor->fecha)->epoch);
       ok $persona->strength->valor;
       ok $persona->dexterity->valor;
       ok $persona->stamina->valor;
@@ -61,6 +62,7 @@ describe "Como desarrollador quiero fabricar vampiros" => sub {
       ok $persona->perception;
       ok $persona->intelligence;
       ok $persona->wits;
+      ok scalar grep {$_ == $persona->firearms->valor} (2..5); 
       is $persona->sum('physical'), $physical + 3;
       is $persona->sum('social'), $social + 3;
       is $persona->sum('mental'), $mental + 3;

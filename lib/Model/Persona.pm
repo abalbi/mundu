@@ -83,6 +83,7 @@ sub describir {
   if($self->template) {
     my $data = $self->hash_tagged;
     $str = ${Template::Simple->new->render( \$self->template, $data )};
+    $str =~ s/\n\n/\n/g while $str =~ /\n\n/;
   } else {
     $str .= $self->nombre->t;
     $str .= ',';
@@ -108,7 +109,8 @@ sub hash {
   }
   map {
     $hash->{$_} = $self->$_->valor->fecha if ref $self->$_->valor eq 'Situacion';
-    $hash->{$_} = $self->$_->valor if $self->$_->valor;
+    $hash->{$_} = $self->$_->valor->nombre->valor if ref $self->$_->valor eq 'Persona';
+    $hash->{$_} = $self->$_->valor if not exists $hash->{$_} && $self->$_->valor;
   } @$keys;
   return $hash;
 }

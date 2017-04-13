@@ -21,7 +21,7 @@ sub _ejecutar {
   $persona->agregar(Saga->despachar('Persona::Propiedad')->new(key => 'sexo'));
   my $params_alteracion = {};
   $params_alteracion->{valor} = $sexo;
-  $params_alteracion->{fecha} = $persona->nacimiento->valor;
+  $params_alteracion->{fecha} = $persona->fecha_nacimiento->valor;
   $persona->sexo->agregar_alteracion($params_alteracion);
   return $persona;
 }

@@ -3,6 +3,7 @@ package WhiteWolf;
 
 use Modulos::WhiteWolf::Comando::Conceptos::Abrazo;
 use Modulos::WhiteWolf::Comando::Conceptos::Clan;
+use Modulos::WhiteWolf::Comando::Conceptos::Concept;
 use Modulos::WhiteWolf::Comando::Conceptos::Generacion;
 use Modulos::WhiteWolf::Comando::Conceptos::Especie;
 use Modulos::WhiteWolf::Comando::Estadisticas;

@@ -16,11 +16,11 @@ describe "Como desarrollador quiero fabricar personas" => sub {
     it "ENTONCES debo tener una persona" => sub {
       ok $persona->nombre->valor;
       ok $persona->sexo->valor;
-      ok $persona->nacimiento->valor;
+      ok $persona->fecha_nacimiento->valor;
       ok $persona->edad->valor;
       my $descripcion = $persona->describir;
       like $descripcion, qr/\w+,\d+,\w/;
-      my $nacimiento = $persona->nacimiento->valor;
+      my $nacimiento = $persona->fecha_nacimiento->valor;
       is scalar(grep {$nacimiento eq $_} @{Saga->entorno->items}), 1;
       is scalar(grep {$persona eq $_} @{Saga->entorno->items}), 1;
     };
@@ -31,7 +31,7 @@ describe "Como desarrollador quiero fabricar personas" => sub {
     it "ENTONCES debo tener una persona" => sub {
       ok $persona->nombre->valor;
       ok $persona->sexo->valor;
-      ok $persona->nacimiento->valor;
+      ok $persona->fecha_nacimiento->valor;
       is $persona->edad->valor, 27;
       my $descripcion = $persona->describir;
       like $descripcion, qr/\w+,\d+,\w/;

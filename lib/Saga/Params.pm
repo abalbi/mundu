@@ -138,4 +138,16 @@ sub borrar {
   my $key = shift;
   delete $self->items->{$key};  
 }
+
+sub merge {
+  my $self = shift;
+  my $params = shift;
+  $Data::Dumper::Maxdepth = 2;
+  foreach my $key (sort keys %{$params->items}) {
+    my $param = $params->$key;
+    if($param && not defined $self->{_items}->{$key}) {
+      $self->params_validos($key)->$key($param);
+    }
+  }
+}
 1;

@@ -14,6 +14,6 @@ sub new {
 
 sub valor {
 	my $self = shift;
-	return $self->persona->abrazo->valor->rol('sire')->persona;
+	return $self->persona->fecha_abrazo->valor->rol('sire')->persona;
 }
 1;

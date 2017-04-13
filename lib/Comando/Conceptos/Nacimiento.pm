@@ -27,11 +27,11 @@ sub _ejecutar {
   my $situacion;
   Saga->en_fecha($fecha_nacimiento, sub {
   	$situacion = Saga->despachar('Comando::Hacer::Situacion')->new->ejecutar(
-  		key => 'nacimiento',
+  		key => 'fecha_nacimiento',
   		sujeto => $persona,
   	);
     $persona->agregar(Saga->despachar('Persona::Propiedad::Nacimiento')->new);
-    $persona->nacimiento->agregar_alteracion(valor => $situacion, fecha => Saga->entorno->fecha_actual);
+    $persona->fecha_nacimiento->agregar_alteracion(valor => $situacion, fecha => Saga->entorno->fecha_actual);
   });
   $persona->agregar(Saga->despachar('Persona::Propiedad::Edad')->new);
 	return $situacion;
